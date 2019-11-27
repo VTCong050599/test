@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ListView lvtraicay;
-    ArrayList<traicay> arraytraicay;
+    static ArrayList<traicay> arraytraicay;
     traicayadapter adapter;
     Button btnadd;
 
@@ -36,20 +36,37 @@ public class MainActivity extends AppCompatActivity {
         });
         adapter = new traicayadapter(this, R.layout.dong_trai_cay, arraytraicay);
         lvtraicay.setAdapter(adapter);
-//        addtraicay();
-//        adapter.notifyDataSetChanged();
+
+        adapter.notifyDataSetChanged();
 
     }
+
+    /*
+    *  Intent intent = new Intent(ActivityInput.this, ActivityOutput.class);
+                intent.putExtra(NUMBER_A,Integer.parseInt(edtNumberA.getText().toString()));
+                intent.putExtra(NUMBER_B,Integer.parseInt(edtNumberB.getText().toString()));
+                startActivityForResult(intent,REQUEST_CODE);
+    * */
 
 
     public void chuyen() {
-        Intent intent = new Intent(this, Activity2.class);
-        startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, Activity2.class);
+        startActivityForResult(intent, 1);
     }
 
-    public void addtraicay()
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1){
+            if(resultCode==RESULT_OK){
+                addtraicay(data);
+
+            }
+        }
+    }
+
+    public void addtraicay(Intent intent1)
     {
-        Intent intent1 = getIntent();
         Bundle bundle = intent1.getExtras();
         int hinh1 = 0;
         if (bundle != null) {
